@@ -18,7 +18,7 @@ let MainBody = () => {
 
  
   let DataToDisplay=AllData;
-  if(filter!="")
+  if(filter!=="")
   {
     DataToDisplay=AllData.filter((obj)=>{
 
@@ -71,7 +71,7 @@ let MainBody = () => {
                 <td
                   onClick={() => {
                     let tempArr = AllData.filter((element) => {
-                      return element.id != obj.id;
+                      return element.id !== obj.id;
                     });
 
                     UpdateData(tempArr);
