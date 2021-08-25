@@ -29,7 +29,7 @@ let Profile = () => {
   return (
     <>
       {value ? (
-        <div>
+        <div className="profile" >
           <img src={value.photoURL}/>
           <p className="username-profile">{value.displayName}</p>
           <p className="ttpost">Total Posts: {totalPosts}</p>
