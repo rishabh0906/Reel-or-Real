@@ -8,6 +8,7 @@ let VideoCard = (props) => {
   let [playing, setPlaying] = useState(false);
   let [currentUserComment, setCurrentUserComment] = useState("");
   let [allComments, setAllComments] = useState([]);
+  let [like, setLike] = useState(false);
 
   let value = useContext(AuthContext);
 
@@ -23,12 +24,16 @@ let VideoCard = (props) => {
         let commentData = { ...doc.data(), id: doc.id };
         arr.push(commentData);
       }
-
+      
+       let doc= await firestore.collection("posts").doc(props.post.id).get();
+       let like = doc.data().likes;
+       console.log(doc.data().likes);
+       setLike(like);
       setAllComments(arr);
     };
 
     f();
-  }, [props]);
+  }, []);
 
   return (
     <div className="video-card">
@@ -44,7 +49,22 @@ let VideoCard = (props) => {
         }}
         src={props.post.url}
       ></video>
-      <span className="material-icons-outlined like">favorite_border</span>
+      <span
+        className="material-icons like"
+        onClick={(e) => {
+          if (like == false) {
+            e.currentTarget.innerText = "favorite";
+            firestore.collection("posts").doc(props.post.id).update({likes:true});
+            setLike(true);
+          } else {
+            e.currentTarget.innerText = "favorite_border";
+            firestore.collection("posts").doc(props.post.id).update({likes:false});
+            setLike(false);
+          }
+        }}
+      >
+        {like==true?"favorite":"favorite_border"}
+      </span>
       <span
         className="material-icons-outlined comment"
         onClick={() => {
